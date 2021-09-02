@@ -1,0 +1,237 @@
+Video 2 
+-Update typescript node and node types with  npm i  package@latest 
+-Then run npm install to get everything else 
+-once you install nodemon change the script inside the package json
+
+Video 4
+-makes sure to add the "typeorm" script to drop tables using the CLI
+-   npm run typeorm schema: drop   <- this will delete schemas.
+- npm run typeorm migration:generate -- --name create-user-table   <-- use dashes to pass argumenuts 
+- npm run typeorm migration:run   <- this will create the tables listed in the migration.
+
+Video 5
+-check the update settings in the tsconfig
+-run npm run typeorm migration:revert to undo a migration. 
+
+Video 6 
+
+- npx create-next-app <name of prject>  in the root of the project
+- npm install --save-dev @types/react typescript    
+- npm install --save-dev @types/react types               
+- go to client folder(or whatever you called it) and create a tsconfig.json file
+- go to tailwind css for installation instructions wtih next.js
+- update the tailwind config
+- be sure update the globals.css file
+- change the tailwind.config to get some custom spacing 
+- Link tags in Next js have the href, while the a tag does not
+
+Video 7
+- change the blues in the tailwind config file
+_ create _docmument.tsx with next.js to edit the html of pages outside of the the React JSX
+- insert the links for the font in the Head of the do created/ Make sure to self close the link tags
+- then edit the tailwind config to use the font. add a class to the body in the doc to use the font
+- we can import axios in the app.tsx and let the sub components use it. Set the axios defaults to use the url we want.
+- be sure to install cors and it's types so the server and the client can interact
+- useClassnames for conditional classes on an element
+- React is auto imported to every next.js component, so no need for an import statement at the top 
+- Use ctrl space to get intellisense for typescript
+- add withCredentials the to post axios calls to post cookies to the browser. This forwards the cookies with each request
+
+Video 8 
+- need to app an svg loader to get them to work in next.js npm install @svgr/webpack --save-dev
+- add code to the next.config.js file
+- create a svg.d.ts file in the root dir to let TS know what it is. k 
+- added additional spacing option to the tailwind config
+- deleted home.module.css. and renamed globals.css file to tailwind.css
+- changed to tailwind.css to add custom classes for a particular directory. See the @layer and the components name it's targetinog
+
+Video 9
+- we disabled the container class within tailwind.config. Then used a plugin to redefine it yourselves with a function. Destructure out addComponent 
+- we can target screen size using the @screen function in tailwind
+- we added the types file to keep intellisense on the client side
+- added dayjs and realtive time plugin to display time
+- see notes the Post Entity to see hwo to create the URL field the post response
+- disable "nounusedlocals in the tsconfig temporarily to 
+- added the get serverprops funciton in the index fiel. serverside render the props as apposed to client side once the page is calle
+- once you use that props method you can pass them into the component, so {props}
+- check the network tab in the dev tools and the response from localhost to see the props
+
+
+Video 10 
+- Created the votes Entity 
+- added misc route to handle the vote and direct it to either a post or comment
+- added Vote array to both the Post and Comment Entity
+- created a  migration for the votes Entity: npm run typeorm migration:generate -- -n create-votes-table
+- npm run typeorm migration:run
+- I commented out the create migration and create user table since those had already been ran and the tables were in the DB
+- added virtual fields to the DB for comment and vote count on a post 
+- excluxed the Votes from the response to hide who voted for what. 
+- added the virutal field userVotes to both Psot and Comment. 
+- then used that function in the misc to fetch the comments and its, as well use the setUservotes function to check if the user voted on all the comments before returning the post in the response.  
+- excluxed the votes in the comments repoonse as well on the Entity
+
+Video 9 
+- created a postcard component and removed the log for it from the index file
+- separated out 
+- added icons to style folder and imported them into the app tsx
+- added post count and comment to the response in the post route
+- added the exclude decorator to the comment field in the post
+- added voteScore commentCount and user vote to the type for post
+- added new middleware user.
+- changed auth middleware to use the funcitonality in the user middleware
+- now if you have a route that needs a user to be logged in you need both auth and user middleware
+- added user middleware to routes in auth middleware that need them 
+- added the user middleware to the getPosts route
+- the reason for the user middleware is that if the user is loggedin then the getPosts route returns the votes for that user, if user isn't logged in then, no votes will show since the aren't logged in. getPosts is the home page that anyone can see
+- added showing user votes to the post card since we created teh user middleware
+
+
+Video 10 
+- create context folder and auth.tsx file for that context
+- added the user type in the types.ts file  
+- created a reducer to tell the context what to do when an action is dispatched
+- create the the provider for the context. useReduce takes the reducer and the initial state and creates state and dispatch which are taken as values in the provider return statement 
+- created custom useContext hooks for those hooks
+- added the context to the app.tsx
+-added the useAuthDispatch to set the context state after getting the user
+- use the dispatch and pass the action type and the payload. this gets loaded into the authContext
+- get the auth state for the navbar.tsx
+- the reason for create two different contexts is to avoid nested Destructuring when using the state
+- create a logout button in the navbar to conditionally show the login buttons
+- create a useEffect call in the authContext to get cookies if the user is logged already
+- created custom dispatch with in the context to stop Destructuring everywhere. besure to udpate where the old dispatch was being used with the new args
+- added loading to the auth context to ensure the log buttons don't show until laoding is done 
+- added new action in reducer for laoding toggle
+- use the finally() function at the end of the useEffect so it always runs on load
+- added a check in the login page if the user is logged in then send them to the home page
+
+Video 13
+- added concurrently to run server and client at the same time
+- added 'client' script to the package.json
+- changed old dev script to server, created new server script. -n gives each project an alias in script
+- added typeORM seeding to help get some mock data going
+- added seeds option to the typeORM, and added seed:run to the scripts
+- created new seed folder in the src dir
+- drop everything in  the data base: npm run typeorm schema:drop, then recreate the DB: npm run typeorm migration:run , then seed it with: 
+- added SWR to the project, this check before a fetch request fro cached data. can kind work as a deduper
+- npm i swr in the client folder, add the import for in the app.tsx, use SWRconfig, pass the value in a callback. and what to do with in the res.send. Check the other option you can pass to the SWR config
+- then  in the index file to get the data
+- rearranged the link tags in the postcard to make it work
+- added subs route to get one sub. getSub routes
+- added r folder to the source dir. this every .tsx file in this folder will have the route /r/whatever.tsx
+- [sub].tsx the brackerts mean its a dynamic route. useRouter from next js
+- created custom markup in [sub].tsx for what SWR returns 
+- changed fetcher into its own separate function to get any error that might come up  
+
+
+Video 14 
+- npm i multer and its types
+- added multer to sub route. Created Public folder in root dir. added public/ to git.ignore
+- added path module to get file extension, also created mutler middleware for image upload
+- in postman check out upload image form data for how to send image file. uploaded file goes into public folder
+- created new middleware to check ownership of sub to upload sub image
+- changed Sub Entity to include username for ownership
+- use fs module to delete file if type is invalid
+- added app.use(express.static('public')) to expose these images to public
+
+Video 15 
+- created new virtual fields for sub.ts
+- added APP_URL to env file
+- UPDATE  sub SET "imageUrn" = null;  <--- this to remove things if necessary
+- add banner and image to [sub].tsx page
+- add new sub type to types file
+- added Sub return type to useSWR return
+- change Sub to Sub page for [sub] file
+- added next/image to [sub] page. Next compresses the image for faster loading
+- configure next.js to makes sure it can take images from certain domains
+- create an input for the owner of a sub to upload an image for the sub banner or image. this is hidden to everyone but the owner. 
+- created a formdata to submit to axios. 
+- TODO: change banner div to Image component from next.js
+- we can use revalidate from SWR to refetch data from the DB if it changes
+
+Video 16
+- created new topReddit route in misc for sidebar
+- used queryBuilder within typeORM to get top 5 most popular subs by post count
+-added postcount to sub type
+-created new Sidebar component for sub pages to use 
+
+Video 17
+- created custom 404 page for subs that don't exist
+- added votes to get a single post route. added user middleware to check for users own vote
+- a couple more dynamic routes within the /r/ folder to dynamicly call a single post page
+- updated Post type to have property of sub
+- exported actionbutton to its own component.
+- and comments to post route getPost, added comments to relation
+
+Video 18 
+- added separate route to get comments in post route
+- added voteScore virutal field to comment Entity
+- added comments to the single post page
+- created Comment type to use
+- added passing the comment to the vote function
+- created form for submitting comment
+- with tailwind 2.0 can add pseudo in already defined class as well as disabled flag, so we remove button:hover from tailwind.css
+- added variants -> extends -> backgroundColor disabled in order for the above line to work
+
+Video 19
+- classnames for images on sidebar to Image, removed surrounding div
+- created submit page for new post within a sub
+- created user page to show all comments, posts, and votes from user sorted by createdAt. users.ts in the routes dir
+- added user routes to server.ts file
+
+
+Video 20
+- used getServerSideProps on the submit.tsx page to make sure only logged in users can see post submission page
+- created searchSubs function in subs routes 
+- use getRepository and queryBuilder to search subs. the colon let's you pass wildcards in typeORM
+- when creating a div with absolute position, the surrounding div must be realtive
+
+Video 21 
+- added anchor tag to Link in index page. Next.js needs an anchor tag in a Link to avoid the warnings
+- added sub folder in pages folder. made create.tsx page
+- added auth protection on create sub route in a similar way to the create post
+- tailwind is mobile first
+
+Video 22
+- adding infinite scrolling. these were added to the getPosts route in posts
+- see the currantPage and postperpage variables. added skip and take to the function
+- added bottom of the page detection to the index.tsx file on client side. 
+- added id to last Postcard.tsx loaded to track the last post on the page
+- look at the observer function in index.tsx to see what is going on 
+- use the isValidating funciton to text if data is laoding
+- fixed voting on posts on main sub feed
+- added revalidate as a prop on the Postcard
+
+Video 23 
+- added initialLoading variable to index.tsx
+- add check in the postcard to see if we're on the sub page. see the isInSubpage variable 
+- on the sub page added passing the revalidate function to the Postcard component so it can render again once it changes
+- added meta tags to _docmument
+- moved reddit.svg to public folder
+- og:title is a meta tag used by facebook. same with og:sitename
+- added base url to .env. check next js for .env help and explantation
+- changed app.tsx to use these variables
+- added meta tags to the slug page and have the meta tags be dynamic based on the body or title of the post 
+
+Video 24
+- deploy to digital ocean
+- add env variables to the orm config. added them to the .env file
+-renamed ormconfig.json to ormconfig.js
+- added rootDir typeORM config to have it read from on place if the server is local, and another if it's in the cloud hoste'readit
+- added this rootDir to all the paths in the typeORM config. be sure to remove src since it depends on the rootDir
+- add {.ts * .js } to all directory extension to make sure it works in both dev and build 
+- add logging check in typeORM config for logging
+- run 'npx tsc' to build server code to test this rootDir variable
+- add include and exclude option in the tsconfig.json (server one, not the the client tsconfig) to make tell npx tsc which files to build
+- ran this npm i --save-dev @types/faker  to avoid compile error when running npm tsc. 
+- run "node build/server.ts" to make sure the .env file is picked up
+- change npm start in the package.json to "node build/server.js". we do this so it can run on the server. 
+- you can change the env variables in the cli so do NODE_ENV=production then "npm start"
+- add "/api" to the "/" route in server.ts
+- test the server in another terminal using curl, curl localhost:5000 or curl localhost:5000/api/posts
+- we do a similar process for the client side, add another env variable to .env.local for the next.config to work on the server
+- run npm run build in the client folder to build the project. this puts the build in the a newly created .next folder
+- now to run all of our JS run npm start in readitclone folder, then in another terminal cd into the client folder and run npm start there. be sure to change the NODE_ENV ahead of the start script on the server for it work correctly
+- comment out secure option on the auth.ts route since it needs HTTPS in production to work
+- if you make changes to the server code you will have to npx tsc to rebuild it
+- create .env.example. this a reminder for you for what to set up on the server .env file
