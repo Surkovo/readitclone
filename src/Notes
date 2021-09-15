@@ -283,3 +283,11 @@ Video 25
 - google github action ssh to get that github action
 - nam folder in the project called .github/workflows/WHATEVER
 - the secrets in the main.yml file are on the github repo
+- generate another ssh key for the secret in the github repo. generate one similar to before. DO THIS ON THE SERVER. name it something else when prompted. in this instance i called it /root/.ssh/github
+- cat github to reveal and copy the key
+- cat github.pub to get the public key
+- then do the following command: echo "<YOURGITHUB.pub KEY>"  >> authorized_keys
+- rm github
+- rm github.pub
+- now commit the changes in the project and it should work
+- in the command line of the main.yml file, use a pipe for multiple commands. Be careful what commands you put, such as doing npm audit fix
