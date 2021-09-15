@@ -5,7 +5,6 @@ import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import InputGroup from '../components/InputGroup';
 import { useAuthState } from '../context/auth';
-import { getRouteMatcher } from 'next/dist/next-server/lib/router/utils';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -49,7 +48,7 @@ export default function Register() {
       <div
         className="h-screen bg-center bg-cover w-36"
         style={{
-          backgroundImage: "url('/images/bricks.jpg')",
+          backgroundImage: `url('${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/images/bricks.jpg')`,
         }}
       ></div>
       <div className="flex flex-col justify-center pl-6 ">

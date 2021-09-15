@@ -234,4 +234,52 @@ Video 24
 - now to run all of our JS run npm start in readitclone folder, then in another terminal cd into the client folder and run npm start there. be sure to change the NODE_ENV ahead of the start script on the server for it work correctly
 - comment out secure option on the auth.ts route since it needs HTTPS in production to work
 - if you make changes to the server code you will have to npx tsc to rebuild it
-- create .env.example. this a reminder for you for what to set up on the server .env file
+- create .env.example. this a reminder for you for what to set up on the server .env file. do the same in the client
+- added git to main readitclone directory. had to remove git from client directory
+- created digital ocean droplet, then used id_rsa.pub on my computers root dir to ssh into my digital ocean server. See command on digital ocean. then create droplet
+- copy the ip from the newly created server. now ssh from your desktop into the server doing the following: ssh root@IPADDERESSERVER
+- now install node.js on the server by going to nodejs nodesource git hub. copy install ubuntu commands 
+- now go to github repo and get deploy key
+- run $ ssh-keygen -t ed25519 -C "your_email@example.com" on the server to get new ssh key. just keep hitting enter on prompts
+- then cd into ssh on the server and: cat rsa.pub  (or whater the public name is). copy that value
+- now use the ssh clone option to get the code on github. cd back to root on server and run: git clone git@github.com:Surkovo/readitclone.git
+- cd into the repo. run npm install
+- now install postgres on the server. google download postgress ubuntu. follow these steps: https://www.postgresql.org/download/linux/ubuntu/
+- now sign into postgres using: sudo -i -u postgres. now run psql then CREATE DATABASE readit;
+- give the postgres user a password with the following: ALTER USER  postgres WITH PASSWORD '123456'. Since the postgres port on the server isn't open to the public by default, it is ok to have a weak password
+- \q to quit psql. and: exit. this gets us out of postgres. 
+- be sure to change .env example to one with values, you can use the following to change the file name: cp .env.example .env
+- use vim to edit the file with the env variables. JWT secret can be whateverk
+- now that the DB is setup run: NODE_ENV=development npm run typeorm migration:run      //be sure to run it with the node env changed so it runs the JS files, not the ts 
+- run: NODE_ENV=development npm run seed  to get data into the db
+- run: npx tsc to build it on the local server
+- then run: npm start
+- open and run another terminal and ssh into the server on that terminal as well
+- curl localhost:5000/api to see if it running. if you see hello world its running 
+- now set up the client. cd into then run npm install , run: npm audit fix --force   <-- this will force install the audit fixes. DONT DO THIS. IT upgrades to webpack 5 and messes with the build process. do more research later
+- be sure to set up the .env file in the client so VIM and cp change the name like in the server. the values should be something similar to what in the server .env. get the urls from there
+- now run: npm run build
+- I had to delete a random import in the register page. weird
+- run npm start on client, then in the other terminal curl to localhost:3000, it should server the html as a response
+- npm install -g pm2 on the server. this lets us run both the server and client in the background on the droplet. Run the below commands to create process in a given folder
+- to use pm2 run the following script: pm2 start --name "server" npm -- start  <---- run this one in the readit directory
+- cd into client then run: pm2 start --name "client" npm --start
+- now to serve the servers to the public we have to install nginx on the droplet. Google how to do this: install nginx on ubuntu. follow the steps
+- after installing nginx you can go the droplet ip and it should show nginx
+- cd into /etc/nginx/site-available to change which sites are being served by nginx. vim default
+- comment out the root line. comment out the try file line
+- add /api after the location line. added line inside the {}: proxy_pass: http/localhost:5000/api. 
+- added location /images { proxy_pass http://localhost/images} . see file for more examples 
+- we did this so all /api and /images go to the server, and all / go to the client. save the new default file.
+- restart nginx with systemctl restart nginx
+- refresh the droplet address and you should see the client page being served!
+- cp bricks.jpg ../../../public/images/bricks.jpg <- we had to move the client images to server side because of the nginx location mapping
+--  I HAVE TO REMOVE THE PUBLIC FROM THE SERVER GIT  IGNORE FILE TO ENSURE THE IMAGES GET UPLOADED TO THE SERVER CORRECTLY.
+
+Video 25
+- do a git reset to undo the changes on the server since you shouldn't change prod on the server. you what to push it up from a local dev environment
+- do this with the following command since your changes weren't committed: git reset --hard
+- since we moved the brick.jpg to server public images folder, delete the bricks.jpg in the client and update the imports on the pages files
+- google github action ssh to get that github action
+- nam folder in the project called .github/workflows/WHATEVER
+- the secrets in the main.yml file are on the github repo
